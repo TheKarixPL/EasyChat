@@ -1,0 +1,25 @@
+{
+  "name": "easychat-app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "gulp build",
+    "gulp": "gulp",
+    "sass": "sass",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TheKarixPL",
+  "license": "ISC",
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "@types/jquery": "^3.5.14",
+    "bootstrap": "^5.2.0",
+    "browserify": "^17.0.0",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^5.1.0",
+    "jquery": "^3.6.0",
+    "sass": "^1.54.5",
+    "tsify": "^5.0.4",
+    "typescript": "^4.7.4"
+  }
+}
