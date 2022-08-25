@@ -98,7 +98,7 @@ try
     app.UseRouting();
     app.UseEndpoints(endpoints =>
     {
-        endpoints.MapControllerRoute("default", "/{controller=Home}/{action=Index}");
+        endpoints.MapDefaultControllerRoute();
     });
 
     app.Run();

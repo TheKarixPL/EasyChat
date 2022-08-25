@@ -45,7 +45,10 @@ public class Password
     }
 
     public bool EqualsRawPassword(string rawPassword)
-        => Equals(new Password(rawPassword));
+    {
+        var hashedPassword = new Rfc2898DeriveBytes(Encoding.UTF8.GetBytes(rawPassword), _salt, 100000).GetBytes(20);
+        return hashedPassword.SequenceEqual(_hashedPassword);
+    }
 
     public bool EqualsHashedPassword(string hashedPassword)
         => Equals(Parse(hashedPassword));
