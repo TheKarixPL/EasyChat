@@ -83,6 +83,13 @@ try
                             .Any(attr => attr.Name == columnName))));
 
     builder.Services.AddSingleton<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
+    builder.Services.AddAntiforgery();
+    builder.Services.AddDistributedMemoryCache();
+    builder.Services.AddSession(options =>
+    {
+        options.IdleTimeout = TimeSpan.FromMinutes(15);
+        options.Cookie.IsEssential = true;
+    });
 
     builder.Services.AddMvcCore().AddRazorViewEngine();
     
@@ -92,6 +99,8 @@ try
     {
         app.UseDeveloperExceptionPage();
     }
+
+    app.UseSession();
 
     app.UseStaticFiles();
 
