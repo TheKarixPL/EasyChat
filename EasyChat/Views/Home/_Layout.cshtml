@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>@(ViewBag.Title != null ? ViewBag.Title : "EasyChat")</title>
+    <link rel="stylesheet" href="/css/shared.css">
+    @if (ViewBag.Stylesheets != null)
+    {
+        foreach (string stylesheet in ViewBag.Stylesheets)
+        {
+            <link rel="stylesheet" href="@stylesheet">
+        }
+    }
+</head>
+<body class="bootstrap">
+<main>
+    @RenderBody()
+</main>
+<script type="module">
+    import {onLoad} from "/js/shared.js";
+    
+    document.body.addEventListener("load", onLoad);
+</script>
+</body>
+</html>

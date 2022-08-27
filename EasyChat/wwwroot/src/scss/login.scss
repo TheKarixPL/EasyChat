@@ -1,0 +1,15 @@
+main {
+  & form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    & .input-group-text {
+      width: 100px;
+    }
+  }
+}

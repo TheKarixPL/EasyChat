@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+
+@{
+    ViewBag.Title = "Login to EasyChat";
+    ViewBag.Stylesheets = new string[] { "/css/login.css" };
+    Layout = "_Layout";
+}
+
+<form asp-action="DoLogin" method="post">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+        </div>
+        <input type="text" asp-for="Name">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Password</span>
+        </div>
+        <input type="password" asp-for="Password">
+    </div>
+    <button class="btn btn-primary" type="submit">Login</button>
+    <a asp-action="Register">
+        Need account? Click here to register!
+    </a>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <script>
+        alert("@ViewBag.Error");
+    </script>
+}

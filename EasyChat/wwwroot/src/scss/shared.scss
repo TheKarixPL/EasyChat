@@ -1,2 +1,32 @@
-﻿@import "node_modules/bootstrap/scss/bootstrap";
+﻿@import "node_modules/@forevolve/bootstrap-dark/dist/css/toggle-bootstrap";
+@import "node_modules/@forevolve/bootstrap-dark/dist/css/toggle-bootstrap-dark";
+@import "node_modules/@forevolve/bootstrap-dark/dist/css/toggle-bootstrap-print";
 
+$app-margin: 20px;
+
+body {
+  display: flex;
+  flex-direction: column;
+  &.bootstrap {
+    background-color: lightgrey;
+    & main {
+      background-color: white;
+    }
+  }
+  &.bootstrap-dark {
+    background-color: darkgray;
+    & main {
+      background-color: black;
+    }
+  }
+}
+
+main {
+  margin: 0 0 0 0;
+  position: absolute;
+  top: $app-margin;
+  left: $app-margin;
+  border-radius: 5px;
+  width: calc(100vw - ($app-margin * 2));
+  height: calc(100vh - ($app-margin * 2));
+}

@@ -30,28 +30,35 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    [Route("Home/Login")]
-    [Route("Home/Login/{error?}")]
-    public IActionResult Login(string error)
+    public IActionResult Login()
     {
         if (Session.GetInt64("UID") == null)
-            return View((object) error);
+            return View();
         else
             return RedirectToAction("Index");
     }
 
     [HttpPost]
-    [Route("Home/Login")]
-    public async Task<IActionResult> DoLogin([FromBody] LoginViewModel model)
+    public async Task<IActionResult> DoLogin([FromForm] LoginViewModel model)
     {
         if (Session.GetInt64("UID") != null)
             return RedirectToAction("Index");
         if (!ModelState.IsValid)
-            return RedirectToAction("Login", new { error = "Informations are invalid"});
-        
+        {
+            ViewBag.Error = "Informations are invalid";
+            return View("Login");
+        }
+
         await using var conn = await _connectionFactory.CreateConnectionAsync();
-        var user = await conn.QuerySingleAsync<UserModel>(@"select * from users where name = @name;",
-            new { name = model.Name });
+        var users = (await conn.QueryAsync<UserModel>(@"select * from users where name = @name;",
+            new { name = model.Name })).ToArray();
+        if (users.Length == 0)
+        {
+            ViewBag.Error = $"User \"{model.Name}\" does not exist";
+            return View("Login");
+        }
+
+        var user = users[0];
         if (user.Password.EqualsRawPassword(model.Password))
         {
             await conn.ExecuteAsync("insert into login_history(ip, time, users_id) values (@ip, @time, @id);",
@@ -66,7 +73,8 @@ public class HomeController : Controller
         }
         else
         {
-            return RedirectToAction("Login", new { error = "Wrong password" });
+            ViewBag.Error = "Wrong password";
+            return View("Login");
         }
     }
 
@@ -78,28 +86,33 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    [Route("Home/Register/{error?}")]
-    public IActionResult Register(string error)
+    public IActionResult Register()
     {
         if (Session.GetInt64("UID") == null)
-            return View((object)error);
+            return View();
         else
             return RedirectToAction("Index");
     }
 
     [HttpPost]
-    [Route("Home/Register")]
-    public async Task<IActionResult> DoRegister([FromBody] RegisterViewModel model)
+    public async Task<IActionResult> DoRegister([FromForm] RegisterViewModel model)
     {
         if (Session.GetInt64("UID") != null)
             return RedirectToAction("Index");
         if (!ModelState.IsValid)
-            return RedirectToAction("Register", new { error = "Informations are invalid" });
+        {
+            ViewBag.Error = "Informations are invalid";
+            return View("Register");
+        }
 
         await using var conn = await _connectionFactory.CreateConnectionAsync();
         if (await conn.QuerySingleAsync<bool>(@"select count(*) > 0 from users where name = @name;",
                 new { name = model.Name }))
-            return RedirectToAction("Register", new { error = "User already exists" });
+        {
+            ViewBag.Error = "User already exists";
+            return View("Register");
+        }
+
         var id = await conn.QuerySingleAsync<ulong>(
             @"insert into users(name, email_address, account_creation_time, password) values (@name, @email_address, @account_creation_time, @password) returning id;",
             new
