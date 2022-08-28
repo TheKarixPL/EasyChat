@@ -61,14 +61,14 @@ public class HomeController : Controller
         var user = users[0];
         if (user.Password.EqualsRawPassword(model.Password))
         {
-            await conn.ExecuteAsync("insert into login_history(ip, time, users_id) values (@ip, @time, @id);",
+            await conn.ExecuteAsync("insert into login_history(ip, time, users_id) values (@ip::inet, @time, @id);",
                 new
             {
-                ip = HttpContext.Connection.RemoteIpAddress,
+                ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "0.0.0.0",
                 time = DateTime.Now,
                 id = user.Id
             });
-            Session.SetInt64("UID", (long)user.Id);
+            Session.SetInt64("UID", user.Id);
             return RedirectToAction("Index");
         }
         else
@@ -113,7 +113,7 @@ public class HomeController : Controller
             return View("Register");
         }
 
-        var id = await conn.QuerySingleAsync<ulong>(
+        var id = await conn.QuerySingleAsync<long>(
             @"insert into users(name, email_address, account_creation_time, password) values (@name, @email_address, @account_creation_time, @password) returning id;",
             new
             {
@@ -122,10 +122,10 @@ public class HomeController : Controller
                 account_creation_time = DateTime.Now,
                 password = new Password(model.Password).ToString()
             });
-        await conn.ExecuteAsync(@"insert into login_history(ip, time, users_id) values (@ip, @time, @id);",
+        await conn.ExecuteAsync(@"insert into login_history(ip, time, users_id) values (@ip::inet, @time, @id);",
             new
             {
-                ip = HttpContext.Connection.RemoteIpAddress,
+                ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "0.0.0.0",
                 time = DateTime.Now,
                 id
             });

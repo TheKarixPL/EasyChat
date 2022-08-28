@@ -17,21 +17,21 @@ public class NameAttribute : ValidationAttribute
                     if (!Regex.IsMatch(name, @"[^A-Za-z1-9_]"))
                         return ValidationResult.Success;
                     else
-                        return new ValidationResult("value is not correct");
+                        return new ValidationResult(validationContext.DisplayName + " is not correct");
                 }
                 else
                 {
-                    return new ValidationResult("name must be lesser than 50");
+                    return new ValidationResult(validationContext.DisplayName + " must be lesser than 50");
                 }
             }
             else
             {
-                return new ValidationResult("value is empty");
+                return new ValidationResult(validationContext.DisplayName + " is empty");
             }
         }
         else
         {
-            return new ValidationResult("value is not string");
+            return new ValidationResult(validationContext.DisplayName + " is not string");
         }
     }
 }

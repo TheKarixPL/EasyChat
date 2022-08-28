@@ -22,7 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\Api" />
       <Folder Include="wwwroot\css" />
       <Folder Include="wwwroot\js" />
     </ItemGroup>

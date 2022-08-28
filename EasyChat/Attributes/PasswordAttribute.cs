@@ -31,21 +31,21 @@ public class PasswordAttribute : ValidationAttribute
             if (pwd.Length >= MinLength)
             {
                 if (Rules.HasFlag(PasswordRules.CapitalLetters) && pwd == pwd.ToLower())
-                    return new ValidationResult("password must contain capital letters");
+                    return new ValidationResult(validationContext.DisplayName + " must contain capital letters");
                 if (Rules.HasFlag(PasswordRules.Numbers) && !Regex.IsMatch(pwd, @"[1-9]"))
-                    return new ValidationResult("password must contain numbers");
+                    return new ValidationResult(validationContext.DisplayName + " must contain numbers");
                 if (Rules.HasFlag(PasswordRules.SpecialCharacters) && !Regex.IsMatch(pwd, @"[!@#$%^&*()+\-*\/_\[\]]"))
-                    return new ValidationResult("password must contain special characters");
+                    return new ValidationResult(validationContext.DisplayName + " must contain special characters");
                 return ValidationResult.Success;
             }
             else
             {
-                return new ValidationResult($"password is lesser than {MinLength} characters");
+                return new ValidationResult($"{validationContext.DisplayName} is lesser than {MinLength} characters");
             }
         }
         else
         {
-            return new ValidationResult("value is not string");
+            return new ValidationResult(validationContext.DisplayName + " is not string");
         }
     }
 }

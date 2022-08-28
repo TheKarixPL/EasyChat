@@ -5,7 +5,7 @@ namespace EasyChat.Models;
 public class AttachmentModel
 {
     [Column("id")]
-    public ulong Id { get; set; }
+    public long Id { get; set; }
 
     [Column("name")]
     public string Name { get; set; }

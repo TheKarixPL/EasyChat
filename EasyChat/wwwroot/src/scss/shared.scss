@@ -4,19 +4,24 @@
 
 $app-margin: 20px;
 
+@mixin main-colors ($color, $background-color) {
+  background-color: $color;
+  color: $background-color;
+}
+
 body {
   display: flex;
   flex-direction: column;
   &.bootstrap {
     background-color: lightgrey;
     & main {
-      background-color: white;
+      @include main-colors(black, white);
     }
   }
   &.bootstrap-dark {
     background-color: darkgray;
     & main {
-      background-color: black;
+      @include main-colors(white, black);
     }
   }
 }

@@ -6,7 +6,7 @@ namespace EasyChat.Models;
 public class LoginHistoryModel
 {
     [Column("id")]
-    public ulong Id { get; set; }
+    public long Id { get; set; }
 
     [Column("ip")]
     public IPAddress Ip { get; set; }

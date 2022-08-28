@@ -1,0 +1,40 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewBag.Title = "Register to EasyChat";
+    ViewBag.Stylesheets = new string[] { "/css/register.css" };
+    Layout = "_Layout";
+}
+
+<form asp-action="DoRegister" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+        </div>
+        <input type="text" asp-for="Name">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Email address</span>
+        </div>
+        <input type="text" asp-for="EmailAddress">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Password</span>
+        </div>
+        <input type="password" asp-for="Password">
+    </div>
+    <button class="btn btn-primary" type="submit">Register</button>
+    <a asp-action="Login">
+        Already had an account? Click here to login!
+    </a>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <script>
+        alert("@ViewBag.Error");
+    </script>
+}
